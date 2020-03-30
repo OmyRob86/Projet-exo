@@ -10,6 +10,9 @@ app.listen(3000, () => {
     console.log("Server started...");
 });
 
+app.use(express.static("./public"));
+app.use(express.urlencoded({extended: true}));
+
 app.get("/api/articles", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
     sqlConnection.query(
