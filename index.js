@@ -15,13 +15,14 @@ app.use(express.urlencoded({extended: true}));
 
 app.get("/api/articles", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
+    
     sqlConnection.query(
         "SELECT id, title, content, author, created_at FROM node_articles ORDER BY id DESC LIMIT 5", 
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
             } else {
-                res.send(result[0]);
+                res.send(result);
             }
             sqlConnection.end();
         }
