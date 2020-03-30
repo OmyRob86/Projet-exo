@@ -99,3 +99,22 @@ app.route("/api/comments/create")
                 sqlConnection.end();
             });
     });
+
+app.route("/api/comments/delete")
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
+    .post((req, res) => {
+        const sqlConnection = mysql.createConnection(sqlConfig);
+        sqlConnection.query(
+            "DELETE FROM node_comments WHERE id = ?",
+            [req.body.commentID],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR" });
+                } else {
+                    console.log(result);
+                    res.send({ status: "OK" });
+                }
+                sqlConnection.end();
+            });
+    });
