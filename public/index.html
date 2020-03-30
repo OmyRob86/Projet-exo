@@ -2,11 +2,32 @@
 
 <html>
     <head>
-        <title></title>
+        <meta charset="utf-8">
+        <title>Creation d'article</title>
         <link type="text/css" rel="stylesheet" href="style.css"> 
     </head>
     <body>
-        <h1>Articles</h1>
-        
+        <form action="api/articles/create" method="post">
+            <fieldset>
+                <legend>Création d'article</legend>
+                <div>
+                    <label for="title">Titre :</label>
+                    <input type="text" id="title" name="title" placeholder="title">
+                </div>
+                <div>
+                    <label for="content">Content :</label>
+                    <input type="textarea" id="content" name="content" placeholder="content">
+                </div>
+                <div>
+                    <label for="author">Author :</label>
+                    <input type="text" id="author" name="author" placeholder="author">
+                </div>
+                <div>
+                    <label for="creationDate">Date de création :</label>
+                    <input type="date" id="creationDate" name="created_at" placeholder="creationDate">
+                </div>
+                <input type="submit" value="submit">
+            </fieldset>
+        </form>
     </body>
 </html>
