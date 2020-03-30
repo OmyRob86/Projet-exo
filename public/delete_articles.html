@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Delete articles</title>
+    </head>
+    <body>
+        <form action="api/articles/delete" method="post">
+            <fieldset>
+                <legend>Èffacer articles</legend>
+                <div>
+                    <label for="articleId">Article id :</label>
+                    <input type="text" id="articleId" name="articleId" placeholder="articleId">
+                </div>
+                <input type="submit" value="submit">
+            </fieldset>
+        </form>
+    </body>
+</html>
