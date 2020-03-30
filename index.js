@@ -79,3 +79,23 @@ app.route("/api/articles/delete")
                 sqlConnection.end();
             });
     });
+
+app.route("/api/comments/create")
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
+    .post((req, res) => {
+        console.log(req.body);
+        const sqlConnection = mysql.createConnection(sqlConfig);
+        sqlConnection.query(
+            "INSERT INTO node_comments VALUES (NULL, ?, ?, ?, ?)",
+            [req.body.article_id, req.body.author, req.body.content, req.body.created_at],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR" });
+                } else {
+                    console.log(result);
+                    res.send({ status: "OK" });
+                }
+                sqlConnection.end();
+            });
+    });
