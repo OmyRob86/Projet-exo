@@ -25,3 +25,18 @@ app.get("/api/articles", (req, res) => {
         }
     );
 });
+
+app.get("/api/comments", (req, res) => {
+    const sqlConnection = mysql.createConnection(sqlConfig);
+    sqlConnection.query(
+        "SELECT id, article_id, author, content, created_at FROM node_comments ORDER BY id DESC LIMIT 5",
+        (error, result) => {
+            if (error) {
+                console.log("ERROR :", error.code);
+            } else {
+                res.send(result);
+            }
+            sqlConnection.end();
+        }
+    );
+});
