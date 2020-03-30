@@ -12,9 +12,8 @@ app.listen(3000, () => {
 
 app.get("/api/articles", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
-
     sqlConnection.query(
-        "SELECT id, title, content, author, created_at FROM node_articles WHERE id = 1 LIMIT 1", 
+        "SELECT id, article_id, author, content, created_at FROM node_articles ORDER BY id DESC LIMIT 5", 
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
