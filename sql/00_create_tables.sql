@@ -27,4 +27,4 @@ CREATE TABLE node_comments (
 (5, 1, "esta perro"),
 (6, 1, "jijiji");
 
-ALTER TABLE node_comments ADD CONSTRAINT FK_comments_articles_id FOREIGN KEY (articles)
+ALTER TABLE node_comments ADD CONSTRAINT FK_comments_articles_id FOREIGN KEY (articles)*/

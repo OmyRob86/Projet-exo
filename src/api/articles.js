@@ -52,6 +52,7 @@ app.get("/api/articles", (req, res) => {
         + "  LIMIT 5;",
         (error, result) => {
             if (error) {
+                console.log(error);
                 res.status(503).send({ status: "ERROR" });
             } else {
                 console.log(result);

@@ -1,2 +1,2 @@
-require(".src/api/articles");
-require(".src/api/comments");
+require("./src/api/articles");
+require("./src/api/comments");
