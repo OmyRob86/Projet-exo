@@ -87,3 +87,28 @@ app.get("/api/articles", (req, res) => {
         }
     );
 });
+
+app.get("/api/article", (req, res) => {
+    const sqlConnection = mysql.createConnection(sqlConfig);
+    sqlConnection.query(
+        "SELECT node_articles.id, title, content, node_users.firstname AS authorFirstname, node_users.lastname AS authorLastname, created_at"
+        + "  FROM node_articles"
+        + "  LEFT JOIN node_users"
+        + "  ON node_articles.author = node_users.id"
+        + "  WHERE node_articles.id = ?"
+        + "  LIMIT 1;",
+        [ req.query.id ],
+        (error, result) => {
+            if (error) {
+                res.status(503).send({ status: "ERROR" });
+            } else {
+                console.log(result);
+                res.send({
+                    status: "OK",
+                    article: result[0],
+                });
+            }
+            sqlConnection.end();
+        }
+    );
+});
