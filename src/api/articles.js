@@ -38,7 +38,7 @@ app.route("/api/articles/delete")
     .get((req, res) => res.status(503).send({ status: "ERROR"}))
     .post((req, res) => {
         if (typeof req.body.id !== "string" || req.body.id === "") {
-            res.status(503).send({ status: "Error", extra: "Vous devez rensigner ue Id" });
+            res.status(503).send({ status: "Error", extra: "Vous devez rensigner une Id" });
             return;
         }
         
