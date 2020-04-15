@@ -13,7 +13,7 @@ app.route("/api/comments/create")
             res.status(503).send({ status: "Error", extra: "L'auteur n'est pas reinsigné"  });
             return;
         }
-        if (typeof req.body.articles_id !== "string" || req.body.articles_id === "") {
+        if (typeof req.body.articleId !== "string" || req.body.articleId === "") {
             res.status(503).send({ status: "Error", extra: "Vous devez rensigner un article id" });
             return;
         }
@@ -21,13 +21,15 @@ app.route("/api/comments/create")
         const sqlConnection = mysql.createConnection(sqlConfig);
         sqlConnection.query(
             "INSERT INTO node_comments(articles_id, author, content) VALUES (?,?,?);",
-            [req.body.articles_id, req.body.author, req.body.content],
+            [req.body.articleId, req.body.author, req.body.content],
             (error, result) => {
                 if (error) {
                     res.status(503).send({ status: "ERROR" });
                 } else {
                     console.log(result);
-                    res.send({ status: "OK" });
+                    res.send({ status: "OK", result: {
+                        commentId: result.insertId
+                    }});
                 }
                 sqlConnection.end();
             }
@@ -35,10 +37,10 @@ app.route("/api/comments/create")
     });
 
 app.route("/api/comments/delete")
-    .get((req, res) => res.status(503).send({ status: "ERROR"}))
+    .get((req, res) => res.status(503).send({ status: "ERROR" }))
     .post((req, res) => {
-        if (typeof req.body.id !== "string" || req.body.id === "") {
-            res.status(503).send({ status: "Error", extra: "Vous devez rensigner une Id" });
+        if (typeof req.body.id !== "number" || req.body.id <= 0) {
+            res.status(503).send({ status: "Error", extra: "Vous devez rensigner une Id d'un commentaire" });
             return;
         }
 
@@ -51,7 +53,11 @@ app.route("/api/comments/delete")
                     res.status(503).send({ status: "ERROR" });
                 } else {
                     console.log(result);
-                    res.send({ status: "OK" });
+                    if (result.affectedRows === 0) {
+                        res.status(503).send({ status: "ERROR", extra: "Le commentaire n'est pas" });
+                    } else {
+                        res.send({ status: "OK", extra: "Le commentaire a été bien supprimé" });
+                    }
                 }
                 sqlConnection.end();
             }
@@ -69,7 +75,7 @@ app.get("/api/comments", (req, res) => {
         + "  WHERE articles_id = ?"
         + "  ORDER BY created_at DESC"
         + "  LIMIT 5;",
-        [req.query.id],
+        [req.query.articles_id],
         (error, result) => {
             if (error) {
                 console.log(error.code);
